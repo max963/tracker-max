@@ -3,18 +3,22 @@
     <h1>
       <img src="../assets/logo.png" alt="logo">
     </h1>
-    <button class="button" @click="alterarTema">
+    <Button @click="alterarTema">
       {{textoDoBotao}}
-    </button>
+    </Button>
   </header>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import Button from './Button.vue';
 
 export default defineComponent({
   name: 'BarraLateral',
   emits: ['aoTemaAlterado'],
+  components: {
+    Button
+  },
   data() {
     return {
       modoEscuroAtivo: false
