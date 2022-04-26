@@ -6,18 +6,36 @@
     <Button @click="alterarTema">
       {{textoDoBotao}}
     </Button>
+    <nav class="panel mt-5">
+      <ul>
+        <li>
+          <router-link to="/" class="link">
+            <Icons :icone="'task'"></Icons>
+            tarefas
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/projetos" class="link">
+            <Icons :icone="'project'"></Icons>
+            projetos
+          </router-link>
+        </li>
+      </ul>
+    </nav>
   </header>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import Button from './Button.vue';
+import Icons from "./Icons.vue";
 
 export default defineComponent({
   name: 'BarraLateral',
   emits: ['aoTemaAlterado'],
   components: {
-    Button
+    Button,
+    Icons
   },
   data() {
     return {
@@ -51,5 +69,21 @@ header {
     padding: 2.5em;
     height: auto;
   }
+}
+
+.panel li {
+  margin: 8px 0;
+}
+
+.link {
+  color: #fff;
+}
+
+.link:hover {
+  color: #FAF0CA;
+}
+
+.link.router-link-active {
+  color: #FAF0CA;
 }
 </style>
