@@ -3,6 +3,8 @@
     <i v-if="icone===undefined"></i>
     <i class="fas fa-stop" v-if="icone==='stop'"></i>
     <i class="fas fa-play" v-if="icone==='play'"></i>
+    <i class="fas fa-tasks" v-if="icone==='task'"></i>
+    <i class="fas fa-project-diagram" v-if="icone==='project'"></i>
   </span>
 </template>
 
