@@ -35,6 +35,7 @@
 <script lang="ts">
 import Icons from "@/components/Icons.vue";
 import { useStore } from "@/store";
+import { EXCLUIR_PROJETO } from "@/store/tipo-mutacoes";
 import { computed, defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
@@ -49,7 +50,7 @@ export default defineComponent({
   },
   methods: {
     excluir (id: string) {
-      this.store.commit('EXCLUIR_PROJETO', id)
+      this.store.commit(EXCLUIR_PROJETO, id)
     }
   }
 })
