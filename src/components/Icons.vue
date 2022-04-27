@@ -6,6 +6,7 @@
     <i class="fas fa-tasks" v-if="icone==='task'"></i>
     <i class="fas fa-project-diagram" v-if="icone==='project'"></i>
     <i class="fas fa-plus" v-if="icone==='add'"></i>
+    <i class="fas fa-trash is-danger" v-if="icone==='delete'"></i>
   </span>
 </template>
 
