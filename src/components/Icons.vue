@@ -5,6 +5,7 @@
     <i class="fas fa-play" v-if="icone==='play'"></i>
     <i class="fas fa-tasks" v-if="icone==='task'"></i>
     <i class="fas fa-project-diagram" v-if="icone==='project'"></i>
+    <i class="fas fa-plus" v-if="icone==='add'"></i>
   </span>
 </template>
 
