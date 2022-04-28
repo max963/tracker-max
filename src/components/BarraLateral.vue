@@ -3,9 +3,7 @@
     <h1>
       <img src="../assets/logo.png" alt="logo">
     </h1>
-    <Button @click="alterarTema">
-      {{textoDoBotao}}
-    </Button>
+    <Button @click="alterarTema" :label="textoDoBotao" />
     <nav class="panel mt-5">
       <ul>
         <li>
