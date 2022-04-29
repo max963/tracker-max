@@ -35,7 +35,7 @@
 <script lang="ts">
 import Icons from "@/components/Icons.vue";
 import { useStore } from "@/store";
-import { DELETAR_PROJETOS, OBTER_PROJETOS } from "@/store/tipo-acoes";
+import { ACT_DELETAR_PROJETOS, ACT_OBTER_PROJETOS } from "@/store/tipo-acoes";
 import { computed, defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
@@ -43,7 +43,7 @@ export default defineComponent({
   name: 'Lista',
   setup () {
     const store = useStore();
-    store.dispatch(OBTER_PROJETOS)
+    store.dispatch(ACT_OBTER_PROJETOS)
     return {
       projetos: computed(() => store.state.projetos),
       store
@@ -51,7 +51,7 @@ export default defineComponent({
   },
   methods: {
     excluir (id: string) {
-      this.store.dispatch(DELETAR_PROJETOS, id)
+      this.store.dispatch(ACT_DELETAR_PROJETOS, id)
     }
   }
 })

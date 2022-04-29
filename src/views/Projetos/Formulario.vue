@@ -19,7 +19,7 @@ import { TipoNotificacao } from "@/interfaces/INotificacao";
 import { useStore } from "@/store";
 import { defineComponent } from "@vue/runtime-core";
 import useNotificador from '@/hooks/notificador'
-import { ALTERAR_PROJETOS, CADASTRAR_PROJETOS } from "@/store/tipo-acoes";
+import { ACT_ALTERAR_PROJETOS, ACT_CADASTRAR_PROJETOS } from "@/store/tipo-acoes";
 
 export default defineComponent({
   name: 'Formulario',
@@ -42,12 +42,12 @@ export default defineComponent({
   methods: {
     salvar () {
       if (this.id) {
-        this.store.dispatch(ALTERAR_PROJETOS, {
+        this.store.dispatch(ACT_ALTERAR_PROJETOS, {
           id: this.id,
           nome: this.nomeDoProjeto
         }).then(() => this.sucesso())
       } else {
-        this.store.dispatch(CADASTRAR_PROJETOS, this.nomeDoProjeto)
+        this.store.dispatch(ACT_CADASTRAR_PROJETOS, this.nomeDoProjeto)
           .then(() => this.sucesso())
       }
     },

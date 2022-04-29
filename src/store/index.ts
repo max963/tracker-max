@@ -1,14 +1,16 @@
-import { OBTER_PROJETOS, CADASTRAR_PROJETOS, ALTERAR_PROJETOS, DELETAR_PROJETOS } from './tipo-acoes';
+import { ACT_OBTER_PROJETOS, ACT_CADASTRAR_PROJETOS, ACT_ALTERAR_PROJETOS, ACT_DELETAR_PROJETOS, ACT_OBTER_TAREFAS } from './tipo-acoes';
 import { INotificacao } from './../interfaces/INotificacao';
 import IProjeto from "@/interfaces/IProjeto";
 import { InjectionKey } from "vue";
 import { createStore, Store, useStore as vuexUseStore } from "vuex";
-import { ADICIONA_PROJETO, ALTERA_PROJETO, DEFINIR_PROJETO, EXCLUIR_PROJETO, NOTIFICAR } from "./tipo-mutacoes";
+import { ADICIONA_PROJETO, ALTERA_PROJETO, DEFINIR_PROJETO, DEFINIR_TAREFAS, EXCLUIR_PROJETO, NOTIFICAR } from "./tipo-mutacoes";
 import ClienteHttp from '@/http';
+import ITarefa from '@/interfaces/iTarefa';
 
 interface Estado {
   projetos: IProjeto[],
-  notificacoes: INotificacao[]
+  notificacoes: INotificacao[],
+  tarefas: ITarefa[]
 }
 
 export const key: InjectionKey<Store<Estado>> = Symbol()
@@ -16,7 +18,8 @@ export const key: InjectionKey<Store<Estado>> = Symbol()
 export const store = createStore<Estado>({
   state: {
     projetos: [],
-    notificacoes: []
+    notificacoes: [],
+    tarefas: []
   },
   mutations: {
     [ADICIONA_PROJETO](state, nomeDoProjeto: string) {
@@ -36,6 +39,11 @@ export const store = createStore<Estado>({
     [DEFINIR_PROJETO](state, projetos: IProjeto[]) {
       state.projetos = projetos;
     },
+
+    [DEFINIR_TAREFAS](state, tarefas: ITarefa[]) {
+      state.tarefas = tarefas;
+    },
+
     [NOTIFICAR](state, novaNotificacao: INotificacao) {
       novaNotificacao.id = new Date().getTime()
       state.notificacoes.push(novaNotificacao)
@@ -46,22 +54,30 @@ export const store = createStore<Estado>({
     }
   },
   actions: {
-    [OBTER_PROJETOS] ({ commit }) {
+    [ACT_OBTER_PROJETOS] ({ commit }) {
       ClienteHttp.get('projetos')
         .then(resposta => commit(DEFINIR_PROJETO, resposta.data))
     },
-    [CADASTRAR_PROJETOS] (contexto, nomeProjeto: string) {
+    [ACT_CADASTRAR_PROJETOS] (contexto, nomeProjeto: string) {
       return ClienteHttp.post('projetos', {
         nome: nomeProjeto
       })
     },
-    [ALTERAR_PROJETOS] (contexto, projeto: IProjeto) {
+    [ACT_ALTERAR_PROJETOS] (contexto, projeto: IProjeto) {
       return ClienteHttp.put(`projetos/${projeto.id}`, projeto)
     },
-    [DELETAR_PROJETOS] ({ commit }, id: string) {
+    [ACT_DELETAR_PROJETOS] ({ commit }, id: string) {
       return ClienteHttp.delete(`projetos/${id}`).then(() => {
         commit(EXCLUIR_PROJETO, id)
       })
+    },
+
+    [ACT_OBTER_TAREFAS] ({ commit }) {
+      ClienteHttp.get('tarefas')
+        .then(resposta => {
+          console.log('tarefas', resposta.data)
+          commit(DEFINIR_TAREFAS, resposta.data)
+        })
     },
   }
 })

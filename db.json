@@ -4,5 +4,16 @@
       "id": 1,
       "nome": "Alura Tracker 3.0"
     }
+  ],
+  "tarefas": [
+    {
+      "id": 1,
+      "duracaoEmSegundos": 120,
+      "descricao": "teste",
+      "projeto": {
+        "id": 1,
+        "nome": "Alura Tracker 3.0"
+      }
+    }
   ]
 }

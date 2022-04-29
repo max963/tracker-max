@@ -1,5 +1,5 @@
 <template>
-  <Formulario @aoSalvarTarefa="salvarTarefa" />
+  <Formulario />
   <div class="lista">
     <Tarefa v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa" />
     <Box v-if="listaEstaVazia">
@@ -9,11 +9,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { useStore } from '@/store';
+import { ACT_OBTER_TAREFAS } from '@/store/tipo-acoes';
+import { computed, defineComponent } from 'vue';
 import Box from '../components/Box.vue';
 import Formulario from '../components/Formulario.vue';
 import Tarefa from '../components/Tarefa.vue';
-import ITarefa from '../interfaces/iTarefa'
 export default defineComponent({
   name: 'Tarefas',
   components: { 
@@ -21,19 +22,22 @@ export default defineComponent({
     Tarefa,
     Box
   },
-  data () {
-    return {
-      tarefas: [] as ITarefa[]
-    }
-  },
   computed: {
     listaEstaVazia (): boolean {
       return this.tarefas.length === 0
     }
   },
   methods: {
-    salvarTarefa (tarefa: ITarefa) {
-      this.tarefas.push(tarefa)
+    // salvarTarefa (tarefa: ITarefa) {
+    //   this.tarefas.push(tarefa)
+    // }
+  },
+  setup () {
+    const store = useStore();
+    store.dispatch(ACT_OBTER_TAREFAS)
+    return {
+      tarefas: computed(() => store.state.tarefas),
+      store
     }
   }
 });
