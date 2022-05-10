@@ -17,9 +17,10 @@
 <script lang="ts">
 import { TipoNotificacao } from "@/interfaces/INotificacao";
 import { useStore } from "@/store";
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent, ref } from "vue";
 import useNotificador from '@/hooks/notificador'
 import { ACT_ALTERAR_PROJETOS, ACT_CADASTRAR_PROJETOS } from "@/store/tipo-acoes";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: 'Formulario',
@@ -28,42 +29,38 @@ export default defineComponent({
       type: String
     }
   },
-  mounted() {
-    if(this.id) {
-      const projeto = this.store.state.projetos.find(proj => proj.id == this.id);
-      this.nomeDoProjeto = projeto?.nome || ''
-    }
-  },
-  data () {
-    return {
-      nomeDoProjeto: ''
-    }
-  },
-  methods: {
-    salvar () {
-      if (this.id) {
-        this.store.dispatch(ACT_ALTERAR_PROJETOS, {
-          id: this.id,
-          nome: this.nomeDoProjeto
-        }).then(() => this.sucesso())
-      } else {
-        this.store.dispatch(ACT_CADASTRAR_PROJETOS, this.nomeDoProjeto)
-          .then(() => this.sucesso())
-      }
-    },
-    sucesso(): void {
-      this.nomeDoProjeto = ''
-      this.notificar(TipoNotificacao.SUCCESS, 'Showw', 'deu certo');
-      this.$router.push('/projetos')
-    }
-  },
-  
-  setup () {
+  setup (props) {
     const store = useStore();
     const { notificar } = useNotificador()
+    const nomeDoProjeto = ref("")
+    const router = useRouter()
+
+    if(props.id) {
+      const projeto = store.state.projeto.projetos.find(proj => proj.id == props.id);
+      nomeDoProjeto.value = projeto?.nome || ''
+    }
+
+    const salvar = () => {
+      if (props.id) {
+        store.dispatch(ACT_ALTERAR_PROJETOS, {
+          id: props.id,
+          nome: nomeDoProjeto.value
+        }).then(() => sucesso())
+      } else {
+        store.dispatch(ACT_CADASTRAR_PROJETOS, nomeDoProjeto.value)
+          .then(() => sucesso())
+      }
+    }
+
+    const sucesso = (): void => {
+      nomeDoProjeto.value = ''
+      notificar(TipoNotificacao.SUCCESS, 'Showw', 'deu certo');
+      router.push('/projetos')
+    }
+
     return {
-      store,
-      notificar
+      nomeDoProjeto,
+      salvar
     }
   }
 })
